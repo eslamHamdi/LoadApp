@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ND940C3-Project</string>
+    <string name="app_description">Download files from Internet</string>
+
+    <string name="loading">WE ARE LOADING</string>
+    <string name="download">DOWNLOAD</string>
+    <string name="Glide">Glide-Image Loading Library by BumpTech </string>
+    <string name="LoadApp">LoadApp-Current Repo by Udacity</string>
+    <string name="Retrofit">Retrofit-Type-Safe HTTP Client For Android and Java by Square</string>
+
+
+    <string name="title_activity_detail">DetailActivity</string>
+</resources>

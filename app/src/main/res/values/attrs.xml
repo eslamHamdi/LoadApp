@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoadingButton">
+        <attr name="bgColor" format="integer" />
+        <attr name="textColor" format="integer" />
+    </declare-styleable>
+</resources>
