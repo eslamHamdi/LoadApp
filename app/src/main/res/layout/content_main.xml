@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Glide"
+            android:onClick="onRadioClick"
             android:textSize="24sp"/>
 
         <RadioButton
@@ -44,7 +45,8 @@
             android:layout_height="wrap_content"
             android:text="@string/LoadApp"
             android:textSize="24sp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:onClick="onRadioClick"/>
 
         <RadioButton
             android:id="@+id/retrofit"
@@ -52,7 +54,8 @@
             android:layout_height="wrap_content"
             android:text="@string/Retrofit"
             android:textSize="24sp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:onClick="onRadioClick"/>
 
 
 

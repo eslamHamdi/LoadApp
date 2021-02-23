@@ -11,11 +11,12 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.core.view.get
+import androidx.core.app.NotificationManagerCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var notificationManager: NotificationManager
     private lateinit var pendingIntent: PendingIntent
     private lateinit var action: NotificationCompat.Action
+    private var url:String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,33 +46,28 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         custom_button.setOnClickListener {
-            download(checkRadioButton())
+
+            val buttonId = radios.checkedRadioButtonId
+            if (buttonId ==-1)
+            {
+                Toast.makeText(this,"please select the file to download",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            download()
+
         }
     }
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            custom_button.isDownloadFinished()
+            showNotification()
         }
     }
 
-    private fun download(id:Int) {
+    private fun download() {
 
-        var url:String? = null
-
-
-        when(id)
-        {
-            radios[0].id-> url = URL2
-            radios[1].id-> url = URL
-            radios[2].id-> url = URL3
-
-            else->
-            {
-                return
-            }
-
-        }
         val request =
             DownloadManager.Request(Uri.parse(url))
                 .setTitle(getString(R.string.app_name))
@@ -84,16 +81,24 @@ class MainActivity : AppCompatActivity() {
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
 
 
+
     }
 
-    fun checkRadioButton():Int
+    fun onRadioClick(view: View)
     {
-        if (!radios.isSelected)
-        {
-            Toast.makeText(this,"please select the file to download",Toast.LENGTH_LONG).show()
-            return -1
-        }
-        return radios.checkedRadioButtonId
+
+        when(view.id)
+      {
+          glide.id-> url = URL2
+          App.id-> url = URL
+          retrofit.id-> url = URL3
+          else->
+           {
+               return
+          }
+
+      }
+
 
     }
 
@@ -110,6 +115,7 @@ class MainActivity : AppCompatActivity() {
     fun createChannel()
     {
         val notificationChannel = NotificationChannel(CHANNEL_ID,"DownloadChannel",NotificationManager.IMPORTANCE_HIGH)
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(notificationChannel)
     }
 
@@ -120,15 +126,19 @@ class MainActivity : AppCompatActivity() {
         val notification =NotificationCompat.Builder(this, CHANNEL_ID)
             .apply {
                 setSmallIcon(R.drawable.ic_notification)
-                setTitle("Download")
+                setContentTitle("Download")
                 setContentText("Completed")
 
-            }.build()
 
-        notificationManager.notify(1,notification)
+            }.build()
+val notifiCationManager = NotificationManagerCompat.from(this)
+        notifiCationManager.notify(1,notification)
 
     }
 
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//    }
 
 
 

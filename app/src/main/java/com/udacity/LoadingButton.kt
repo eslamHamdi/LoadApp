@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import kotlin.properties.Delegates
@@ -17,6 +18,7 @@ class LoadingButton @JvmOverloads constructor(
 
     private var bgColor: Int = Color.BLACK
     private var textColor: Int = Color.BLACK
+    private var buttonText:String =""
 
     @Volatile
     private var progress: Double = 0.0
@@ -59,7 +61,7 @@ class LoadingButton @JvmOverloads constructor(
 
             textColor = attr.getColor(
                 R.styleable.LoadingButton_textColor,
-                ContextCompat.getColor(context, R.color.colorPrimary)
+                ContextCompat.getColor(context, R.color.white)
             )
         } finally {
             attr.recycle()
@@ -73,7 +75,8 @@ class LoadingButton @JvmOverloads constructor(
         valueAnimator.cancel()
 
         buttonState = ButtonState.Completed
-        invalidate()
+        Log.e(null, "isDownloadFinished: entered" )
+      invalidate()
         requestLayout()
     }
 
@@ -92,6 +95,20 @@ class LoadingButton @JvmOverloads constructor(
         110f
     )
 
+    override fun performClick(): Boolean {
+        super.performClick()
+        if (buttonState == ButtonState.Completed) buttonState = ButtonState.Loading
+        animation()
+
+        return true
+    }
+
+    private fun animation() {
+        valueAnimator.start()
+
+    }
+
+
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
@@ -108,15 +125,19 @@ class LoadingButton @JvmOverloads constructor(
             )
             paint.color = Color.parseColor("#F9A825")
             canvas?.drawArc(rect, 0f, (360 * (progress / 100)).toFloat(), true, paint)
+            buttonText =resources.getString(R.string.loading)
         }
-        val buttonText =
-            if (buttonState == ButtonState.Loading)
-                resources.getString(R.string.loading)
-            else resources.getString(R.string.download)
+
+            if (buttonState == ButtonState.Completed)
+            {
+                buttonText = resources.getString(R.string.download)
+            }
 
         paint.color = textColor
         canvas?.drawText(buttonText, (width / 2).toFloat(), ((height + 30) / 2).toFloat(),
             paint)
+
+
 
     }
 
@@ -133,16 +154,5 @@ class LoadingButton @JvmOverloads constructor(
         setMeasuredDimension(w, h)
     }
 
-    override fun performClick(): Boolean {
-        super.performClick()
-        if (buttonState == ButtonState.Completed) buttonState = ButtonState.Loading
-        animation()
-
-        return true
-    }
-
-    private fun animation() {
-        valueAnimator.start()
-    }
 
 }
