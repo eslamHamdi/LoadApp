@@ -11,6 +11,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -61,8 +62,26 @@ class MainActivity : AppCompatActivity() {
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+
+
+            var description = ""
+            var status = "Failed"
+            when(url)
+            {
+                URL-> description = resources.getString(R.string.LoadApp)
+                URL2-> description =  resources.getString(R.string.Glide)
+                URL3 ->  description = resources.getString(R.string.Retrofit)
+            }
+
+            if (id == downloadID)
+            {
+                Log.e(null, "onReceive: ${id } , $downloadID" )
+                status = "Success"
+            }
+
+            //Log.e(null, "onReceive: ${description + " " + title}" )
             custom_button.isDownloadFinished()
-            showNotification()
+            showNotification(description,status)
         }
     }
 
@@ -79,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadID =
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
+
 
 
 
@@ -119,19 +139,30 @@ class MainActivity : AppCompatActivity() {
         notificationManager.createNotificationChannel(notificationChannel)
     }
 
-    fun showNotification()
+    fun showNotification(descripe:String , state:String)
     {
-        val intent = Intent(this,DetailActivity::class.java)
+        val bundle = Bundle()
+        bundle.putString("desc",descripe)
+        bundle.putString("st",state)
+        val intent = Intent(this,DetailActivity::class.java).apply {
+            putExtras(bundle)
+        }
         pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
+
+        action = NotificationCompat.Action(0,"Check the status" ,pendingIntent)
+        val notifiCationManager = NotificationManagerCompat.from(this)
+
         val notification =NotificationCompat.Builder(this, CHANNEL_ID)
             .apply {
                 setSmallIcon(R.drawable.ic_notification)
-                setContentTitle("Download")
-                setContentText("Completed")
+                setContentTitle("Udacity: Android Kotlin Nanodegree")
+                setContentText("The Project 3 Repository is Downloaded")
+                setPriority(NotificationCompat.PRIORITY_HIGH)
+                addAction(action)
 
 
             }.build()
-val notifiCationManager = NotificationManagerCompat.from(this)
+
         notifiCationManager.notify(1,notification)
 
     }

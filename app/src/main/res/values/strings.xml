@@ -10,4 +10,7 @@
 
 
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="file_name">File name :</string>
+    <string name="status">Status :</string>
+    <string name="go_to_the_home_screen">go to the home screen</string>
 </resources>
