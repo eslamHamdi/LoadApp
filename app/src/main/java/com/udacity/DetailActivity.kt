@@ -18,7 +18,7 @@ class DetailActivity : AppCompatActivity() {
         name.text = intent.getStringExtra("desc")
         status.text = intent.getStringExtra("st")
         stateCheck(status.text.toString())
-
+motion.setTransition(R.id.start,R.id.end)
         motion.transitionToEnd()
     }
 
