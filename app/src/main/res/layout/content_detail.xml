@@ -2,7 +2,6 @@
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/motion"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="50dp"
@@ -28,12 +27,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:ellipsize="end"
-        android:lines="4"
         android:maxLines="4"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/file"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/status"
         tools:text="name" />
 
     <TextView
@@ -52,10 +51,10 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/state"
+        app:layout_constraintBaseline_toBaselineOf="@id/state"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/state"
-        app:layout_constraintTop_toTopOf="@id/state"
+
         tools:text="success"/>
 
 

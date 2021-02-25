@@ -24,6 +24,7 @@
 
     <Transition
         app:autoTransition="animateToEnd"
+        app:transitionFlags="beginOnFirstDraw"
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
         app:duration="1000"/>
