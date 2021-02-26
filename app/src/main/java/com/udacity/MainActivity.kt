@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity() {
                 .setAllowedOverMetered(true)
                 .setAllowedOverRoaming(true)
 
+
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadID =
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
@@ -157,7 +158,8 @@ class MainActivity : AppCompatActivity() {
                 setSmallIcon(R.drawable.ic_notification)
                 setContentTitle("Udacity: Android Kotlin Nanodegree")
                 setContentText("The Project 3 Repository is Downloaded")
-                setPriority(NotificationCompat.PRIORITY_HIGH)
+                priority = NotificationCompat.PRIORITY_HIGH
+                setAutoCancel(true)
                 addAction(action)
 
 
