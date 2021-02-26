@@ -51,7 +51,11 @@ class MainActivity : AppCompatActivity() {
             val buttonId = radios.checkedRadioButtonId
             if (buttonId ==-1)
             {
-                Toast.makeText(this,"please select the file to download",Toast.LENGTH_SHORT).show()
+                if (isNetworkConnected(this))
+                {
+                    Toast.makeText(this,"please select the file to download",Toast.LENGTH_SHORT).show()
+                }
+
                 return@setOnClickListener
             }
             download()

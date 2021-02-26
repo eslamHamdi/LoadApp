@@ -1,6 +1,8 @@
 package com.udacity
 
+import android.animation.Animator
 import android.animation.AnimatorInflater
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
@@ -8,7 +10,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
-import kotlin.properties.Delegates
+import com.google.android.material.snackbar.Snackbar
 
 class LoadingButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -32,9 +34,11 @@ class LoadingButton @JvmOverloads constructor(
 
     private var valueAnimator = ValueAnimator()
 
-    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+//    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+//
+//    }
+private var buttonState = ButtonState.Completed
 
-    }
     private val updateListener = ValueAnimator.AnimatorUpdateListener {
         progress = (it.animatedValue as Float).toDouble()
 
@@ -52,6 +56,20 @@ class LoadingButton @JvmOverloads constructor(
         ) as ValueAnimator
 
         valueAnimator.addUpdateListener(updateListener)
+        valueAnimator.addListener(object:AnimatorListenerAdapter(){
+            override fun onAnimationStart(animation: Animator?)
+            {
+                super.onAnimationStart(animation)
+                this@LoadingButton.isEnabled = false
+            }
+
+            override fun onAnimationEnd(animation: Animator?)
+            {
+                super.onAnimationEnd(animation)
+                this@LoadingButton.isEnabled = true
+
+            }
+        })
 
         val attr = context.theme.obtainStyledAttributes(
             attrs,
@@ -104,13 +122,22 @@ class LoadingButton @JvmOverloads constructor(
     override fun performClick(): Boolean {
         super.performClick()
         if (buttonState == ButtonState.Completed) buttonState = ButtonState.Loading
+
         animation()
 
         return true
     }
 
     private fun animation() {
-        valueAnimator.start()
+        if (isNetworkConnected(this.context))
+        {
+            valueAnimator.start()
+        }else
+        {
+          Snackbar.make(this,"Please connect to the internet",Snackbar.LENGTH_SHORT).show()
+        }
+
+
 
     }
 
