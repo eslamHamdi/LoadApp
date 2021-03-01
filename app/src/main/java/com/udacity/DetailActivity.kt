@@ -29,6 +29,7 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
+    //change the failed text color
     fun stateCheck(state:String)
     {
         if (state == "Failed")

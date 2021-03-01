@@ -16,8 +16,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
         android:text="@string/file_name"
+        android:lines="1"
         android:textColor="@color/grey"
-        android:textSize="20sp"
+        android:textSize="@dimen/small_text"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -29,7 +31,7 @@
         android:ellipsize="end"
         android:maxLines="4"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp"
+        android:textSize="@dimen/small_text"
         app:layout_constraintTop_toTopOf="@id/file"
         app:layout_constraintStart_toEndOf="@id/file"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,9 +43,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
+        android:lines="1"
         android:text="@string/status"
         android:textColor="@color/grey"
-        android:textSize="20sp"
+        android:textSize="@dimen/small_text"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/file"/>
     <TextView
@@ -51,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp"
+        android:textSize="@dimen/small_text"
         app:layout_constraintBaseline_toBaselineOf="@id/state"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/state"

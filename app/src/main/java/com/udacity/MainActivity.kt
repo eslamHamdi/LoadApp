@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.transition.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -29,12 +30,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var notificationManager: NotificationManager
     private lateinit var pendingIntent: PendingIntent
     private lateinit var action: NotificationCompat.Action
+    private lateinit var downloadManager:DownloadManager
     private var url:String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+
+
+
+
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             createChannel()
@@ -48,16 +55,19 @@ class MainActivity : AppCompatActivity() {
 
         custom_button.setOnClickListener {
 
-            val buttonId = radios.checkedRadioButtonId
-            if (buttonId ==-1)
+             val buttonId = radios.checkedRadioButtonId
+            if (buttonId < 0)
             {
+
                 if (isNetworkConnected(this))
                 {
+
                     Toast.makeText(this,"please select the file to download",Toast.LENGTH_SHORT).show()
                 }
 
                 return@setOnClickListener
             }
+            custom_button.animation()
             download()
 
         }
@@ -77,19 +87,26 @@ class MainActivity : AppCompatActivity() {
                 URL3 ->  description = resources.getString(R.string.Retrofit)
             }
 
+
+
             if (id == downloadID)
             {
                 Log.e(null, "onReceive: ${id } , $downloadID" )
                 status = "Success"
+
+
             }
+            //stopping button animation after download process completed
+            custom_button.isDownloadFinished()
 
             //Log.e(null, "onReceive: ${description + " " + title}" )
-            custom_button.isDownloadFinished()
+
             showNotification(description,status)
         }
     }
 
     private fun download() {
+        Log.e(null, "download: entered" )
 
         val request =
             DownloadManager.Request(Uri.parse(url))
@@ -100,15 +117,17 @@ class MainActivity : AppCompatActivity() {
                 .setAllowedOverRoaming(true)
 
 
-        val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+       downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadID =
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
 
 
 
 
+
     }
 
+    //handle user selection
     fun onRadioClick(view: View)
     {
 
@@ -119,7 +138,8 @@ class MainActivity : AppCompatActivity() {
           retrofit.id-> url = URL3
           else->
            {
-               return
+
+             return
           }
 
       }
@@ -162,6 +182,8 @@ class MainActivity : AppCompatActivity() {
                 setSmallIcon(R.drawable.ic_notification)
                 setContentTitle("Udacity: Android Kotlin Nanodegree")
                 setContentText("The Project 3 Repository is Downloaded")
+                //updating Customize notification UI based on the status of the download/upload ( fail, success)
+                setSubText(state)
                 priority = NotificationCompat.PRIORITY_HIGH
                 setAutoCancel(true)
                 addAction(action)
@@ -173,9 +195,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//    }
+
 
 
 

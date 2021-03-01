@@ -21,8 +21,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include android:id="@+id/motion"
-        layout="@layout/content_detail">
+    <include layout="@layout/content_detail">
     </include>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

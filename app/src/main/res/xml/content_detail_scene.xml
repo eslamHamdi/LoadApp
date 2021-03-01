@@ -6,30 +6,44 @@
 
         <Constraint
             android:id="@+id/name"
-            app:layout_constraintBottom_toBottomOf="@+id/file"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/file"
-             />
+            android:scaleX="0"
+            android:scaleY="0"
+            />
+<!--            app:layout_constraintBottom_toBottomOf="@+id/file"-->
+<!--            app:layout_constraintStart_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/file"-->
+
+
         <Constraint
             android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/state" />
+            app:layout_constraintTop_toTopOf="@id/state"/>
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+        <!--            android:scaleY="0"-->
+        <!--            android:scaleX="0"-->
+
+
         <Constraint
             android:id="@+id/file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:scaleX="0"
+            android:scaleY="0"/>
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="50dp"-->
+<!--            app:layout_constraintEnd_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+
         <Constraint
             android:id="@+id/state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/file"/>
+            android:scaleX="0"
+            android:scaleY="0"/>
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="50dp"-->
+<!--            app:layout_constraintEnd_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/file"-->
+
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -41,5 +55,13 @@
         app:transitionFlags="beginOnFirstDraw"
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
-        app:duration="1000"/>
+        app:duration="1000" >
+       <KeyFrameSet>
+           <KeyAttribute
+               app:framePosition="0"
+               app:motionTarget="@string/status"
+               app:transitionEasing="decelerate"/>
+       </KeyFrameSet>
+
+    </Transition>
 </MotionScene>
